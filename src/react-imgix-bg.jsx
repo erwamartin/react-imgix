@@ -79,7 +79,8 @@ export const __shouldComponentUpdate = (props, nextProps) => {
 
     const value = shallowEqual(oldProp, newProp);
     if (!value) {
-      console.log('re-rendering 7 ' + key, {value, oldProp, newProp});
+      const isEqual = JSON.stringify(oldProp) === JSON.stringify(newProp);
+      console.log('re-rendering 7 ' + key, {value, isEqual, oldProp, newProp});
     }
 
     return undefined; // handled by shallowEqual
