@@ -12,6 +12,7 @@ const findNearestWidth = (actualWidth) =>
 
 const toFixed = (dp, value) => +value.toFixed(dp);
 
+// Create a copy of a JS object but remove the prototype
 const cloneObject = (obj) => {
   const clone = Object.create(obj);
   Object.setPrototypeOf(clone, {});
@@ -30,7 +31,6 @@ export const __shouldComponentUpdate = (props, nextProps) => {
   // If neither of the previous nor next dimensions are present,
   // re-render.
   if (!nextWidth || !nextHeight || !prevWidth || !prevHeight) {
-    console.log('re-rendering 1');
     return true;
   }
 
@@ -38,14 +38,12 @@ export const __shouldComponentUpdate = (props, nextProps) => {
   // and both the previous and next dimensions should be defined.
   // Only update if the nextWidth is greater than the prevWidth.
   if (prevWidth && nextWidth && nextWidth > prevWidth) {
-    console.log('re-rendering 2');
     return true;
   }
 
   // Similarly, only update if the next height is greater than
   // the previous height.
   if (prevHeight && nextHeight && nextHeight > prevHeight) {
-    console.log('re-rendering 3');
     return true;
   }
 
@@ -56,37 +54,20 @@ export const __shouldComponentUpdate = (props, nextProps) => {
     }
 
     if (key === "children") {
-      if (oldProp !== newProp) {
-        console.log('re-rendering 4', {oldProp, newProp});
-      }
       return oldProp == newProp;
     }
 
     if (key === "imgixParams") {
-      const value = shallowEqual(oldProp, newProp, (a, b) => {
+      return shallowEqual(oldProp, newProp, (a, b) => {
         if (Array.isArray(a)) {
           return shallowEqual(a, b);
         }
         return undefined;
       });
-      if (!value) {
-        console.log('re-rendering 5', {oldProp, newProp});
-      }
-      return value;
     }
 
     if (key === "htmlAttributes") {
-      const value = shallowEqual(oldProp, newProp);
-      if (!value) {
-        console.log('re-rendering 6', {oldProp, newProp});
-      }
-      return value;
-    }
-
-    const value = shallowEqual(oldProp, newProp);
-    if (!value) {
-      const isEqual = JSON.stringify(oldProp) === JSON.stringify(newProp);
-      console.log('re-rendering 7 ' + key, {value, isEqual, oldProp, newProp});
+      return shallowEqual(oldProp, newProp);
     }
 
     return undefined; // handled by shallowEqual
