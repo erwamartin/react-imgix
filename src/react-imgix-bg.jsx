@@ -77,8 +77,9 @@ export const __shouldComponentUpdate = (props, nextProps) => {
       return value;
     }
 
-    if (!shallowEqual(oldProp, newProp)) {
-      console.log('re-rendering 7 ' + key, {oldProp, newProp});
+    const value = shallowEqual(oldProp, newProp);
+    if (!value) {
+      console.log('re-rendering 7 ' + key, {value, oldProp, newProp});
     }
 
     return undefined; // handled by shallowEqual
