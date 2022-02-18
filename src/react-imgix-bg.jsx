@@ -12,6 +12,12 @@ const findNearestWidth = (actualWidth) =>
 
 const toFixed = (dp, value) => +value.toFixed(dp);
 
+const cloneObject = (obj) => {
+  const clone = Object.create(obj);
+  Object.setPrototypeOf(clone, {});
+  return clone;
+};
+
 export const __shouldComponentUpdate = (props, nextProps) => {
   const contentRect = props.contentRect;
   const bounds = contentRect.bounds;
@@ -88,7 +94,7 @@ export const __shouldComponentUpdate = (props, nextProps) => {
 
   // If we made it here, we need to check if the "top-level"
   // props have changed (e.g. disableLibraryParam).
-  const propsEqual = shallowEqual(props, nextProps, customizer);
+  const propsEqual = shallowEqual(cloneObject(props), cloneObject(nextProps), customizer);
 
   return !(propsEqual);
 }
