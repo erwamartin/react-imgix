@@ -24,6 +24,7 @@ export const __shouldComponentUpdate = (props, nextProps) => {
   // If neither of the previous nor next dimensions are present,
   // re-render.
   if (!nextWidth || !nextHeight || !prevWidth || !prevHeight) {
+    console.log('re-rendering 1');
     return true;
   }
 
@@ -31,12 +32,14 @@ export const __shouldComponentUpdate = (props, nextProps) => {
   // and both the previous and next dimensions should be defined.
   // Only update if the nextWidth is greater than the prevWidth.
   if (prevWidth && nextWidth && nextWidth > prevWidth) {
+    console.log('re-rendering 2');
     return true;
   }
 
   // Similarly, only update if the next height is greater than
   // the previous height.
   if (prevHeight && nextHeight && nextHeight > prevHeight) {
+    console.log('re-rendering 3');
     return true;
   }
 
@@ -46,11 +49,14 @@ export const __shouldComponentUpdate = (props, nextProps) => {
       return true;
     }
 
+    console.log('re-rendering 4');
+
     if (key === "children") {
       return oldProp == newProp;
     }
 
     if (key === "imgixParams") {
+      console.log('re-rendering 5');
       return shallowEqual(oldProp, newProp, (a, b) => {
         if (Array.isArray(a)) {
           return shallowEqual(a, b);
@@ -60,8 +66,11 @@ export const __shouldComponentUpdate = (props, nextProps) => {
     }
 
     if (key === "htmlAttributes") {
+      console.log('re-rendering 6');
       return shallowEqual(oldProp, newProp);
     }
+
+    console.log('re-rendering 7 ' + key);
 
     return undefined; // handled by shallowEqual
   };
