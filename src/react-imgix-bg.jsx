@@ -49,28 +49,35 @@ export const __shouldComponentUpdate = (props, nextProps) => {
       return true;
     }
 
-    console.log('re-rendering 4');
-
     if (key === "children") {
+      if (oldProp !== newProp) {
+        console.log('re-rendering 4', {oldProp, newProp});
+      }
       return oldProp == newProp;
     }
 
     if (key === "imgixParams") {
-      console.log('re-rendering 5');
-      return shallowEqual(oldProp, newProp, (a, b) => {
+      const value = shallowEqual(oldProp, newProp, (a, b) => {
         if (Array.isArray(a)) {
           return shallowEqual(a, b);
         }
         return undefined;
       });
+      if (!value) {
+        console.log('re-rendering 5', {oldProp, newProp});
+      }
+      return value;
     }
 
     if (key === "htmlAttributes") {
-      console.log('re-rendering 6');
-      return shallowEqual(oldProp, newProp);
+      const value = shallowEqual(oldProp, newProp);
+      if (!value) {
+        console.log('re-rendering 6', {oldProp, newProp});
+      }
+      return value;
     }
 
-    console.log('re-rendering 7 ' + key);
+    console.log('re-rendering 7 ' + key, {oldProp, newProp})
 
     return undefined; // handled by shallowEqual
   };
